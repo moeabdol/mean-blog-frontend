@@ -1,15 +1,28 @@
-import { Component, OnInit } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  ElementRef,
+  ViewChild
+} from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+
+import { AuthService } from "../../services/auth.service";
 
 @Component({
   selector: "registration",
   templateUrl: "./registration.component.html",
   styleUrls: ["./registration.component.css"]
 })
-export class RegistrationComponent implements OnInit {
+export class RegistrationComponent implements OnInit, AfterViewInit {
+  @ViewChild("username") public elementRef: ElementRef;
   public form: FormGroup;
+  public message: string;
+  public messageClass: string;
+  public processing: boolean = false;
 
-  constructor(private _formBuilder: FormBuilder) { }
+  constructor(private _formBuilder: FormBuilder,
+              private _authService: AuthService) { }
 
   ngOnInit() {
     this.form = this._formBuilder.group({
@@ -32,6 +45,10 @@ export class RegistrationComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit() {
+    this.elementRef.nativeElement.focus();
+  }
+
   validateEmail(control): { [s: string]: boolean } {
     const regExp = new RegExp(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/);
     if (regExp.test(control.value)) {
@@ -52,7 +69,41 @@ export class RegistrationComponent implements OnInit {
     };
   }
 
+  enableForm() {
+    this.form.controls["email"].enable();
+    this.form.controls["username"].enable();
+    this.form.controls["password"].enable();
+    this.form.controls["confirmation"].enable();
+  }
+
+  disableForm() {
+    this.form.controls["email"].disable();
+    this.form.controls["username"].disable();
+    this.form.controls["password"].disable();
+    this.form.controls["confirmation"].disable();
+  }
+
   onSubmit() {
-    console.log(this.form);
+    this.processing = true;
+    this.disableForm();
+
+    const user = {
+      email: this.form.get("email").value,
+      username: this.form.get("username").value,
+      password: this.form.get("password").value
+    };
+    this._authService.registerUser(user)
+      .subscribe(
+        res => {
+          this.messageClass = "alert alert-success";
+          this.message = res["message"];
+        },
+        err => {
+          this.messageClass = "alert alert-danger";
+          this.message = err["error"]["message"];
+          this.processing = false;
+          this.enableForm();
+        }
+      );
   }
 }

@@ -1,13 +1,18 @@
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-sm-12 col-md-6">
-      <h3 class="mt-4">User Registration</h3>
+
+      <div [ngClass]="messageClass" *ngIf="message">
+        {{ message }}
+      </div>
+
+      <h3>User Registration</h3>
       <hr/>
 
       <form [formGroup]="form" (submit)="onSubmit()">
         <div class="form-group">
           <label for="username">Username</label>
-          <input type="text" name="username" class="form-control"
+          <input type="text" name="username" class="form-control" #username
             autocomplete="off" formControlName="username" [ngClass]="{
               'is-invalid': form.controls.username.invalid && (form.controls.username.dirty || form.controls.username.touched),
               'is-valid': form.controls.username.valid && (form.controls.username.dirty || form.controls.username.touched)
@@ -80,8 +85,8 @@
           </div>
         </div>
 
-        <input [disabled]="!form.valid" type="submit" class="btn btn-primary"
-          value="Submit" />
+        <input [disabled]="!form.valid || processing" type="submit"
+          class="btn btn-primary" value="Submit" />
       </form>
     </div>
   </div>
