@@ -6,6 +6,7 @@ import {
   ViewChild
 } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
 
 import { AuthService } from "../../services/auth.service";
 
@@ -20,9 +21,14 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
   public message: string;
   public messageClass: string;
   public processing: boolean = false;
+  public emailValid: boolean;
+  public emailMessage: string;
+  public usernameValid: boolean;
+  public usernameMessage: string;
 
   constructor(private _formBuilder: FormBuilder,
-              private _authService: AuthService) { }
+              private _authService: AuthService,
+              private _router: Router) { }
 
   ngOnInit() {
     this.form = this._formBuilder.group({
@@ -94,9 +100,12 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
     };
     this._authService.registerUser(user)
       .subscribe(
-        res => {
+        data => {
           this.messageClass = "alert alert-success";
-          this.message = res["message"];
+          this.message = data["message"];
+          setTimeout(() => {
+            this._router.navigate(["/login"]);
+          }, 2000);
         },
         err => {
           this.messageClass = "alert alert-danger";
@@ -104,6 +113,40 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
           this.processing = false;
           this.enableForm();
         }
+      );
+  }
+
+  checkEmail() {
+    this._authService.checkEmail(this.form.get("email").value)
+      .subscribe(
+        data => {
+          if (data) {
+            if (data["found"]) {
+              this.emailValid = false;
+            } else {
+              this.emailValid = true;
+            }
+            this.emailMessage = data["message"];
+          }
+        },
+        err => console.log(err)
+      );
+  }
+
+  checkUsername() {
+    this._authService.checkUsername(this.form.get("username").value)
+      .subscribe(
+        data => {
+          if (data) {
+            if (data["found"]) {
+              this.usernameValid = false;
+            } else {
+              this.usernameValid = true;
+            }
+            this.usernameMessage = data["message"];
+          }
+        },
+        err => console.log(err)
       );
   }
 }

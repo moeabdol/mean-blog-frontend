@@ -14,11 +14,10 @@
           <label for="username">Username</label>
           <input type="text" name="username" class="form-control" #username
             autocomplete="off" formControlName="username" [ngClass]="{
-              'is-invalid': form.controls.username.invalid && (form.controls.username.dirty || form.controls.username.touched),
-              'is-valid': form.controls.username.valid && (form.controls.username.dirty || form.controls.username.touched)
-            }">
-          <div class="invalid-feedback"
-            *ngIf="form.controls.username.errors && (form.controls.username.dirty || form.controls.username.touched)">
+              'is-invalid': (form.controls.username.invalid && (form.controls.username.dirty || form.controls.username.touched)) || (!usernameValid && (form.controls.username.dirty || form.controls.username.touched)),
+              'is-valid': (form.controls.username.valid && (form.controls.username.dirty || form.controls.username.touched)) || (usernameValid && (form.controls.username.dirty || form.controls.username.touched))
+            }" (blur)="checkUsername()">
+          <div class="invalid-feedback" *ngIf="(form.controls.username.errors && (form.controls.username.dirty || form.controls.username.touched)) || !usernameValid">
             <p *ngIf="form.controls.username.errors?.required">
               Username is required.
             </p>
@@ -28,6 +27,9 @@
             <p *ngIf="form.controls.username.errors?.maxlength">
               Username must be at most (15) characters long.
             </p>
+            <p *ngIf="usernameMessage">
+              {{ usernameMessage }}
+            </p>
           </div>
         </div>
 
@@ -35,16 +37,18 @@
           <label for="email">Email</label>
           <input type="email" name="email" class="form-control"
             autocomplete="off" formControlName="email" [ngClass]="{
-              'is-invalid': form.controls.email.invalid && (form.controls.email.dirty || form.controls.email.touched),
-              'is-valid': form.controls.email.valid && (form.controls.email.dirty || form.controls.email.touched)
-            }">
-          <div class="invalid-feedback"
-            *ngIf="form.controls.email.errors && (form.controls.email.dirty || form.controls.email.touched)">
+              'is-invalid': (form.controls.email.invalid && (form.controls.email.dirty || form.controls.email.touched)) || (!emailValid && (form.controls.email.dirty || form.controls.email.touched)),
+              'is-valid': (form.controls.email.valid && (form.controls.email.dirty || form.controls.email.touched)) || (emailValid && (form.controls.email.dirty || form.controls.email.touched))
+            }" (blur)="checkEmail()">
+          <div class="invalid-feedback" *ngIf="(form.controls.email.errors && (form.controls.email.dirty || form.controls.email.touched)) || !emailValid">
             <p *ngIf="form.controls.email.errors?.required">
               Email is required.
             </p>
             <p *ngIf="form.controls.email.errors?.invalidEmail">
               Email is not a valid email address.
+            </p>
+            <p *ngIf="emailMessage">
+              {{ emailMessage }}
             </p>
           </div>
         </div>
@@ -85,8 +89,8 @@
           </div>
         </div>
 
-        <input [disabled]="!form.valid || processing" type="submit"
-          class="btn btn-primary" value="Submit" />
+        <input [disabled]="!form.valid || processing || !usernameValid || !emailValid"
+          type="submit" class="btn btn-primary" value="Submit" />
       </form>
     </div>
   </div>
