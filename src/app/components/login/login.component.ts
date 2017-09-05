@@ -41,10 +41,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
     });
 
     if (this._authGuard.redirectUrl) {
+      this.messageClass = "alert alert-danger";
+      this.message = "You must be logged in to view that page.";
       this.previousUrl = this._authGuard.redirectUrl;
       this._authGuard.redirectUrl = undefined;
-      this.messageClass = "alert alert-danger";
-      this.message = "You must be logged in to view that page";
     }
   }
 
