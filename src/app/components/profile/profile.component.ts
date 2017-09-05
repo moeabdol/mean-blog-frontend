@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 
 import { AuthService } from "../../services/auth.service";
 
@@ -12,7 +13,8 @@ export class ProfileComponent implements OnInit {
   public username: string;
   public email: string;
 
-  constructor(private _authService: AuthService) { }
+  constructor(private _authService: AuthService,
+              private _router: Router) { }
 
   ngOnInit() {
     this._authService.getProfile()
@@ -23,7 +25,9 @@ export class ProfileComponent implements OnInit {
           this.email = data["email"];
         },
         err => {
-          console.log(err);
+          if (err["error"]["message"] === "Invalid token!") {
+            this._router.navigate(["/login"]);
+          }
         }
       );
   }
