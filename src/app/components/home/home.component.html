@@ -3,8 +3,8 @@
   <p class="lead">Welcome to the MEAN Stack Blog by
     <strong>Mohammad Saed</strong></p>
   <div>
-    <a routerLink="/register" class="btn btn-primary">Register</a>
-    <a routerLink="/login" class="btn btn-outline-dark">Login</a>
+    <a *ngIf="!_authService.loggedIn()" routerLink="/register" class="btn btn-primary">Register</a>
+    <a *ngIf="!_authService.loggedIn()" routerLink="/login" class="btn btn-outline-dark">Login</a>
   </div>
 </div>
 

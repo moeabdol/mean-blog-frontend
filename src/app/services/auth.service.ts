@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 
+import { tokenNotExpired } from "angular2-jwt";
+
 @Injectable()
 export class AuthService {
   public authToken: string;
@@ -51,5 +53,9 @@ export class AuthService {
   getProfile() {
     const headers = this.createAuthHeaders();
     return this._http.get("http://localhost:3000/api/users", { headers });
+  }
+
+  loggedIn() {
+    return tokenNotExpired();
   }
 }
