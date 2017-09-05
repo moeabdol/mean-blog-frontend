@@ -14,10 +14,10 @@
           <label for="username">Username</label>
           <input type="text" name="username" class="form-control" #username
             formControlName="username" [ngClass]="{
-              'is-invalid': (form.controls.username.invalid && (form.controls.username.dirty || form.controls.username.touched)) || (!usernameValid && (form.controls.username.dirty || form.controls.username.touched)),
-              'is-valid': (form.controls.username.valid && (form.controls.username.dirty || form.controls.username.touched)) || (usernameValid && (form.controls.username.dirty || form.controls.username.touched))
+              'is-invalid': form.controls.username.invalid && (form.controls.username.dirty || form.controls.username.touched),
+              'is-valid': form.controls.username.valid && (form.controls.username.dirty || form.controls.username.touched)
             }">
-          <div class="invalid-feedback" *ngIf="(form.controls.username.errors && (form.controls.username.dirty || form.controls.username.touched)) || !usernameValid">
+          <div class="invalid-feedback" *ngIf="form.controls.username.errors && (form.controls.username.dirty || form.controls.username.touched)">
             <p *ngIf="form.controls.username.errors?.required">
               Username is required.
             </p>

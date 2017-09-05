@@ -3,10 +3,17 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 @Injectable()
 export class AuthService {
+  public authToken: string;
+  public user: Object;
+
   constructor(private _http: HttpClient) { }
 
   registerUser(user) {
     return this._http.post("http://localhost:3000/api/users/register", user);
+  }
+
+  loginUser(user) {
+    return this._http.post("http://localhost:3000/api/users/login", user);
   }
 
   checkUsername(username) {
@@ -15,5 +22,12 @@ export class AuthService {
 
   checkEmail(email) {
     return this._http.get(`http://localhost:3000/api/users/checkemail/${email}`);
+  }
+
+  storeUserDate(token, user) {
+    this.authToken = token;
+    this.user = user;
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(user));
   }
 }
