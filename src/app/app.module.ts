@@ -14,6 +14,8 @@ import { RegistrationComponent } from "./components/registration/registration.co
 import { AuthService } from "./services/auth.service";
 import { LoginComponent } from "./components/login/login.component";
 import { ProfileComponent } from "./components/profile/profile.component";
+import { AuthGuard } from "./guards/auth.guard";
+import { NotAuthGuard } from "./guards/not-auth.guard";
 
 @NgModule({
   declarations: [
@@ -32,7 +34,7 @@ import { ProfileComponent } from "./components/profile/profile.component";
     HttpClientModule,
     FlashMessagesModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, AuthGuard, NotAuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

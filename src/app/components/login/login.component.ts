@@ -14,6 +14,7 @@ import {
 import { Router } from "@angular/router";
 
 import { AuthService } from "../../services/auth.service";
+import { AuthGuard } from "../../guards/auth.guard";
 
 @Component({
   selector: "login",
@@ -26,16 +27,25 @@ export class LoginComponent implements OnInit, AfterViewInit {
   public message: string;
   public messageClass: string;
   public processing: boolean;
+  public previousUrl: string;
 
   constructor(private _formBuilder: FormBuilder,
               private _authService: AuthService,
-              private _router: Router) { }
+              private _router: Router,
+              private _authGuard: AuthGuard) { }
 
   ngOnInit() {
     this.form = this._formBuilder.group({
       username: ["", Validators.required],
       password: ["", Validators.required]
     });
+
+    if (this._authGuard.redirectUrl) {
+      this.previousUrl = this._authGuard.redirectUrl;
+      this._authGuard.redirectUrl = undefined;
+      this.messageClass = "alert alert-danger";
+      this.message = "You must be logged in to view that page";
+    }
   }
 
   ngAfterViewInit() {
@@ -68,7 +78,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
           this.message = data["message"];
           this._authService.storeUserDate(data["token"], data["user"]);
           setTimeout(() => {
-            this._router.navigate(["/dashboard"]);
+            if (this.previousUrl) {
+              this._router.navigate([this.previousUrl]);
+            } else {
+              this._router.navigate(["/profile"]);
+            }
           }, 2000);
         },
         err => {
