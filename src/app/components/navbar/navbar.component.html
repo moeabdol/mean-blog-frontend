@@ -19,20 +19,25 @@
         [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link" routerLink="/dashboard">Dashboard</a>
       </li>
+
       <li class="nav-item" [routerLinkActive]="['active']"
         [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link" routerLink="/profile">Profile</a>
       </li>
+
       <li class="nav-item">
         <a class="nav-link" href="#blog">Blog</a>
       </li>
+
       <li class="nav-item" [routerLinkActive]="['active']"
         [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link" routerLink="/login">Login</a>
       </li>
+
       <li class="nav-item">
-        <a class="nav-link" href="#logout">Logout</a>
+        <a class="nav-link" href="#" (click)="onLogoutClicked()">Logout</a>
       </li>
+
       <li class="nav-item" [routerLinkActive]="['active']"
         [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link" routerLink="/register">Register</a>

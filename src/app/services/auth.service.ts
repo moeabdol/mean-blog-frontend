@@ -16,6 +16,13 @@ export class AuthService {
     return this._http.post("http://localhost:3000/api/users/login", user);
   }
 
+  logout() {
+    this.authToken = null;
+    this.user = null;
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+  }
+
   checkUsername(username) {
     return this._http.get(`http://localhost:3000/api/users/checkusername/${username}`);
   }
@@ -25,8 +32,6 @@ export class AuthService {
   }
 
   storeUserDate(token, user) {
-    // this.authToken = token;
-    // this.user = user;
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(user));
   }

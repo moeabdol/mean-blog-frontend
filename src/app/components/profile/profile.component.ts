@@ -4,7 +4,7 @@ import { Router } from "@angular/router";
 import { AuthService } from "../../services/auth.service";
 
 @Component({
-  selector: "app-profile",
+  selector: "profile",
   templateUrl: "./profile.component.html",
   styleUrls: ["./profile.component.css"]
 })
@@ -25,9 +25,7 @@ export class ProfileComponent implements OnInit {
           this.email = data["email"];
         },
         err => {
-          if (err["error"]["message"] === "Invalid token!") {
-            this._router.navigate(["/login"]);
-          }
+          this._router.navigate(["/login"]);
         }
       );
   }

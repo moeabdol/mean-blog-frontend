@@ -3,6 +3,8 @@ import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 
+import { FlashMessagesModule } from "angular2-flash-messages";
+
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { NavbarComponent } from "./components/navbar/navbar.component";
@@ -27,7 +29,8 @@ import { ProfileComponent } from "./components/profile/profile.component";
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FlashMessagesModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]
