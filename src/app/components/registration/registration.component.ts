@@ -20,7 +20,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
   public form: FormGroup;
   public message: string;
   public messageClass: string;
-  public processing: boolean = false;
+  public processing: boolean;
   public emailValid: boolean;
   public emailMessage: string;
   public usernameValid: boolean;
@@ -55,6 +55,20 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
     this.elementRef.nativeElement.focus();
   }
 
+  enableForm() {
+    this.form.controls["email"].enable();
+    this.form.controls["username"].enable();
+    this.form.controls["password"].enable();
+    this.form.controls["confirmation"].enable();
+  }
+
+  disableForm() {
+    this.form.controls["email"].disable();
+    this.form.controls["username"].disable();
+    this.form.controls["password"].disable();
+    this.form.controls["confirmation"].disable();
+  }
+
   validateEmail(control): { [s: string]: boolean } {
     const regExp = new RegExp(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/);
     if (regExp.test(control.value)) {
@@ -75,20 +89,6 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
     };
   }
 
-  enableForm() {
-    this.form.controls["email"].enable();
-    this.form.controls["username"].enable();
-    this.form.controls["password"].enable();
-    this.form.controls["confirmation"].enable();
-  }
-
-  disableForm() {
-    this.form.controls["email"].disable();
-    this.form.controls["username"].disable();
-    this.form.controls["password"].disable();
-    this.form.controls["confirmation"].disable();
-  }
-
   onSubmit() {
     this.processing = true;
     this.disableForm();
@@ -98,6 +98,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
       username: this.form.get("username").value,
       password: this.form.get("password").value
     };
+
     this._authService.registerUser(user)
       .subscribe(
         data => {

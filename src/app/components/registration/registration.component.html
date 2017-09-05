@@ -60,13 +60,12 @@
               'is-invalid': form.controls.password.invalid && (form.controls.password.dirty || form.controls.password.touched),
               'is-valid': form.controls.password.valid && (form.controls.password.dirty || form.controls.password.touched)
             }">
-          <div class="invalid-feedback"
-            *ngIf="form.controls.password.errors && (form.controls.password.dirty || form.controls.password.touched)">
+          <div class="invalid-feedback" *ngIf="form.controls.password.errors && (form.controls.password.dirty || form.controls.password.touched)">
             <p *ngIf="form.controls.password.errors?.required">
               Password is required.
             </p>
             <p *ngIf="form.controls.password.errors?.minlength">
-              Username must be at lease (8) characters long.
+              Password must be at lease (8) characters long.
             </p>
           </div>
         </div>
@@ -78,8 +77,7 @@
               'is-invalid': (form.controls.confirmation.invalid && (form.controls.confirmation.dirty || form.controls.confirmation.touched)) || (form.errors?.mismatch && (form.controls.confirmation.dirty || form.controls.confirmation.touched)),
               'is-valid': form.controls.confirmation.valid && (form.controls.confirmation.dirty || form.controls.confirmation.touched)
             }">
-          <div class="invalid-feedback"
-            *ngIf="(form.controls.confirmation.invalid && (form.controls.confirmation.dirty || form.controls.confirmation.touched)) || form.errors?.mismatch">
+          <div class="invalid-feedback" *ngIf="(form.controls.confirmation.invalid && (form.controls.confirmation.dirty || form.controls.confirmation.touched)) || form.errors?.mismatch">
             <p *ngIf="form.controls.confirmation.errors?.required">
               Password confirmation is required.
             </p>
