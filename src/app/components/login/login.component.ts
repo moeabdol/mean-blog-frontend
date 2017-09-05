@@ -64,7 +64,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this._authService.loginUser(user)
       .subscribe(
         data => {
-          console.log(data);
           this.messageClass = "alert alert-success";
           this.message = data["message"];
           this._authService.storeUserDate(data["token"], data["user"]);
@@ -73,7 +72,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
           }, 2000);
         },
         err => {
-          console.log(err);
           this.messageClass = "alert alert-danger";
           this.message = err["error"]["message"];
           this.processing = false;

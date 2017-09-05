@@ -25,9 +25,26 @@ export class AuthService {
   }
 
   storeUserDate(token, user) {
-    this.authToken = token;
-    this.user = user;
+    // this.authToken = token;
+    // this.user = user;
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(user));
+  }
+
+  loadToken() {
+    this.authToken = localStorage.getItem("token");
+  }
+
+  createAuthHeaders() {
+    this.loadToken();
+    const headers = new HttpHeaders()
+      .set("Content-Type", "application/json")
+      .set("Authorization", this.authToken);
+    return headers;
+  }
+
+  getProfile() {
+    const headers = this.createAuthHeaders();
+    return this._http.get("http://localhost:3000/api/users", { headers });
   }
 }
