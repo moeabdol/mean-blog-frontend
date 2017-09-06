@@ -21,8 +21,8 @@
         Reload
       </button>
 
-      <br />
-      <br />
+      <br *ngIf="!processingNewPost" />
+      <br *ngIf="!processingNewPost" />
 
       <form [formGroup]="form" (submit)="onBlogSubmit()"
         *ngIf="processingNewPost">
