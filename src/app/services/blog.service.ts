@@ -29,4 +29,15 @@ export class BlogService {
     const headers = this.createAuthHeaders();
     return this._http.get("http://localhost:3000/api/blog", { headers });
   }
+
+  getSingleBlogPost(id) {
+    const headers = this.createAuthHeaders();
+    return this._http.get(`http://localhost:3000/api/blog/${id}`, { headers });
+  }
+
+  editBlogPost(id, blog) {
+    const headers = this.createAuthHeaders();
+    return this._http.put(`http://localhost:3000/api/blog/${id}`, blog,
+      { headers });
+  }
 }

@@ -8,7 +8,7 @@
       <h3>Edit Blog Post</h3>
       <hr />
 
-      <form (submit)="updateBlogSubmit()">
+      <form (submit)="updateBlogSubmit()" *ngIf="!loading">
         <div class="form-group">
           <label for="title">Title</label>
           <input type="text" name="title" class="form-control"
@@ -22,17 +22,17 @@
         </div>
 
         <a>
-          <button type="button" (click)="deletePost()" [disabled]="processsing"
+          <button type="button" (click)="deletePost()" [disabled]="processing"
             class="btn btn-danger">Delete</button>
         </a>
 
         <a>
-          <button type="button" (click)="goBack()" [disabled]="processsing"
+          <button type="button" (click)="goBack()" [disabled]="processing"
             class="btn btn-warning text-white">Go Back</button>
         </a>
 
         <a>
-          <button type="submit" [disabled]="processsing"
+          <button type="submit" [disabled]="processing"
             class="btn btn-success">Edit</button>
         </a>
       </form>
