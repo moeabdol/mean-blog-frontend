@@ -24,4 +24,9 @@ export class BlogService {
     return this._http.post("http://localhost:3000/api/blog", blog,
       { headers });
   }
+
+  getAllBlogPosts() {
+    const headers = this.createAuthHeaders();
+    return this._http.get("http://localhost:3000/api/blog", { headers });
+  }
 }

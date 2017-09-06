@@ -22,7 +22,6 @@
       </button>
 
       <br *ngIf="!processingNewPost" />
-      <br *ngIf="!processingNewPost" />
 
       <form [formGroup]="form" (submit)="onBlogSubmit()"
         *ngIf="processingNewPost">
@@ -80,42 +79,37 @@
       </form>
 
       <div *ngIf="!processingNewPost">
-        <div class="card">
-          <h5 class="card-header bg-primary text-white">Post Title</h5>
+        <div class="card mt-4" *ngFor="let post of blogPosts">
+          <h5 class="card-header bg-primary text-white">{{ post.title }}</h5>
 
           <div class="card-body">
-            <p class="card-text">
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-						eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-						ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
-            </p>
+            <p class="card-text">{{ post.body }}</p>
           </div>
 
           <div class="card-footer">
-            <strong>Posted by: </strong>moeabdol
+            <strong>Posted by: </strong>{{ post.createdBy }}
             <br />
-            <strong>Date: </strong>September 6th, 2017
+            <strong>Date: </strong>{{ post.createdAt | date:"MMM dd, yyyy" }}
             <br />
-            <div>
-              <strong>Likes: </strong>25
+            <div *ngIf="post.createdBy === currentUserUsername">
+              <strong>Likes: </strong>{{ post.likes }}
               <br />
-              <strong>Dislikes: </strong>22
+              <strong>Dislikes: </strong>{{ post.dislikes }}
             </div>
 
             <div class="btn-group blocks">
-              <button type="button" name="button" class="btn btn-sm btn-info">
-                Edit
-              </button>
-              <button type="button" name="button" class="btn btn-sm btn-danger">
-                Delete
-              </button>
-
+              <a [routerLink]="['/blog/edit', post._id]" *ngIf="post.createdBy === currentUserUsername">
+                <button type="button" name="button" class="btn btn-sm btn-info">
+                  Edit
+                </button>
+              </a>
+              <a (click)="deleteBlogPost(post._id)" *ngIf="post.createdBy === currentUserUsername">
+                <button type="button" name="button" class="btn btn-sm btn-danger">
+                  Delete
+                </button>
+              </a>
               <div class="dropdown">
-                <button type="button" name="button"
+                <button type="button" name="button" *ngIf="post.createdBy !== currentUserUsername"
                   class="btn btn-sm btn-success" data-toggle="dropdown">
                   <span class="oi oi-thumb-up"></span>
                   Likes: 21
@@ -129,7 +123,7 @@
               </div>
 
               <div class="dropdown">
-                <button type="button" name="button"
+                <button type="button" name="button" *ngIf="post.createdBy !== currentUserUsername"
                   class="btn btn-sm btn-warning text-white"
                   data-toggle="dropdown">
                   <span class="oi oi-thumb-down"></span>

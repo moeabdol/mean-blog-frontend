@@ -6,6 +6,8 @@ import {
   Validators
 } from "@angular/forms";
 
+import { JwtHelper } from "angular2-jwt";
+
 import { BlogService } from "../../services/blog.service";
 
 @Component({
@@ -20,6 +22,8 @@ export class BlogComponent implements OnInit {
   public loadingBlogPosts: boolean = false;
   public messageClass: string;
   public message: string;
+  public blogPosts: Object;
+  public currentUserUsername: string;
 
   constructor(private _formBuilder: FormBuilder,
               private _blogService: BlogService) { }
@@ -38,6 +42,15 @@ export class BlogComponent implements OnInit {
         Validators.maxLength(500),
       ])]
     });
+
+    this.getAllBlogPosts();
+    this.getCurrentUseaUsernamer();
+  }
+
+  getCurrentUseaUsernamer() {
+    const token = localStorage.getItem("token");
+    const jwtHelper = new JwtHelper();
+    this.currentUserUsername = jwtHelper.decodeToken(token).username;
   }
 
   validateAlphaNumeric(control: FormControl): { [s: string]: boolean } {
@@ -73,6 +86,7 @@ export class BlogComponent implements OnInit {
         data => {
           this.messageClass = "alert alert-success";
           this.message = data["message"];
+          this.getAllBlogPosts();
           setTimeout(() => {
             this.processingNewPost = false;
             this.submittingNewPost = false;
@@ -89,13 +103,26 @@ export class BlogComponent implements OnInit {
       );
   }
 
+  getAllBlogPosts() {
+    this._blogService.getAllBlogPosts()
+      .subscribe(
+        data => {
+          this.blogPosts = data;
+        },
+        err => {
+          this.messageClass = "alert alert-danger";
+          this.message = err["errors"]["message"];
+        }
+      );
+  }
+
   newBlogForm() {
     this.processingNewPost = true;
   }
 
   reloadBlogPosts() {
     this.loadingBlogPosts = true;
-    // Get All Blogs
+    this.getAllBlogPosts();
     setTimeout(() => {
       this.loadingBlogPosts = false;
     }, 4000);
