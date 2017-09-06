@@ -1,0 +1,41 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-sm-12">
+      <div [ngClass]="messageClass" *ngIf="message">
+        {{ message }}
+      </div>
+
+      <h3>Edit Blog Post</h3>
+      <hr />
+
+      <form (submit)="updateBlogSubmit()">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text" name="title" class="form-control"
+            [(ngModel)]="blog.title" [disabled]="processing" />
+        </div>
+
+        <div class="form-group">
+          <label for="body">Body</label>
+          <textarea name="body" class="form-control" rows="10"
+            [(ngModel)]="blog.body" [disabled]="processing"></textarea>
+        </div>
+
+        <a>
+          <button type="button" (click)="deletePost()" [disabled]="processsing"
+            class="btn btn-danger">Delete</button>
+        </a>
+
+        <a>
+          <button type="button" (click)="goBack()" [disabled]="processsing"
+            class="btn btn-warning text-white">Go Back</button>
+        </a>
+
+        <a>
+          <button type="submit" [disabled]="processsing"
+            class="btn btn-success">Edit</button>
+        </a>
+      </form>
+    </div>
+  </div>
+</div>
