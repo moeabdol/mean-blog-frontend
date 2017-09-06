@@ -1,9 +1,9 @@
 <div class="container mt-4">
   <div class="row justify-content-center">
     <div class="col-sm-12">
-      <!-- <div [ngClass]="messageClass" *ngIf="message"> -->
-      <!--   {{ message }} -->
-      <!-- </div> -->
+      <div [ngClass]="messageClass" *ngIf="message && processingNewPost">
+        {{ message }}
+      </div>
 
       <h3>Blog Feed</h3>
       <hr/>

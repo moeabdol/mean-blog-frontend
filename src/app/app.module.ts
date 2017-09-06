@@ -15,6 +15,7 @@ import { LoginComponent } from "./components/login/login.component";
 import { ProfileComponent } from "./components/profile/profile.component";
 import { BlogComponent } from "./components/blog/blog.component";
 import { AuthService } from "./services/auth.service";
+import { BlogService } from "./services/blog.service";
 import { AuthGuard } from "./guards/auth.guard";
 import { NotAuthGuard } from "./guards/not-auth.guard";
 
@@ -38,8 +39,9 @@ import { NotAuthGuard } from "./guards/not-auth.guard";
   ],
   providers: [
     AuthService,
+    BlogService,
     AuthGuard,
-    NotAuthGuard
+    NotAuthGuard,
   ],
   bootstrap: [AppComponent]
 })

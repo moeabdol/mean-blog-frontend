@@ -6,6 +6,8 @@ import {
   Validators
 } from "@angular/forms";
 
+import { BlogService } from "../../services/blog.service";
+
 @Component({
   selector: "blog",
   templateUrl: "./blog.component.html",
@@ -16,8 +18,11 @@ export class BlogComponent implements OnInit {
   public processingNewPost: boolean = false;
   public submittingNewPost: boolean = false;
   public loadingBlogPosts: boolean = false;
+  public messageClass: string;
+  public message: string;
 
-  constructor(private _formBuilder: FormBuilder) { }
+  constructor(private _formBuilder: FormBuilder,
+              private _blogService: BlogService) { }
 
   ngOnInit() {
     this.form = this._formBuilder.group({
@@ -55,7 +60,6 @@ export class BlogComponent implements OnInit {
   }
 
   onBlogSubmit() {
-    console.log(this.form.value);
     this.submittingNewPost = true;
     this.disableNewBlogForm();
 
@@ -63,6 +67,26 @@ export class BlogComponent implements OnInit {
       title: this.form.get("title").value,
       body: this.form.get("body").value
     };
+
+    this._blogService.createNewBlog(blog)
+      .subscribe(
+        data => {
+          this.messageClass = "alert alert-success";
+          this.message = data["message"];
+          setTimeout(() => {
+            this.processingNewPost = false;
+            this.submittingNewPost = false;
+            this.form.reset();
+            this.enableNewBlogForm();
+          }, 2000);
+        },
+        err => {
+          this.messageClass = "alert alert-danger";
+          this.message = err["errors"]["message"];
+          this.submittingNewPost = false;
+          this.enableNewBlogForm();
+        }
+      );
   }
 
   newBlogForm() {
