@@ -1,0 +1,28 @@
+.card {
+  border: 1px solid black;
+}
+
+.card-header {
+  border: 1px solid black;
+}
+
+.card-body {
+  border: 1px solid black;
+}
+
+.card-footer {
+  border: 1px solid black;
+}
+
+.blocks button{
+  margin: 2px 4px 0 0px;
+  border-radius: 4px !important;
+}
+
+.comment-footer {
+  padding: 0;
+}
+
+.comment-footer .list-group-item {
+  border: none;
+}
