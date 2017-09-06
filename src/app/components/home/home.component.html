@@ -5,6 +5,7 @@
   <div>
     <a *ngIf="!_authService.loggedIn()" routerLink="/register" class="btn btn-primary">Register</a>
     <a *ngIf="!_authService.loggedIn()" routerLink="/login" class="btn btn-outline-dark">Login</a>
+    <a *ngIf="_authService.loggedIn()" routerLink="/blog" class="btn btn-success">Blog</a>
   </div>
 </div>
 
