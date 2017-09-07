@@ -18,6 +18,7 @@ import { BlogService } from "../../services/blog.service";
 export class BlogComponent implements OnInit {
   public form: FormGroup;
   public processingNewPost: boolean = false;
+  public processingDeletePost: boolean = false;
   public submittingNewPost: boolean = false;
   public loadingBlogPosts: boolean = false;
   public messageClass: string;
@@ -134,5 +135,26 @@ export class BlogComponent implements OnInit {
   goBack() {
     this.processingNewPost = false;
     this.form.reset();
+  }
+
+  deleteBlogPost(id) {
+    if (confirm("Are you sure to delete " + id)) {
+      this.processingDeletePost = true;
+      this._blogService.deleteBlogPost(id).
+        subscribe(
+          data => {
+            this.messageClass = "alert alert-success";
+            this.message = data["message"];
+            setTimeout(() => {
+              this.getAllBlogPosts();
+              this.processingDeletePost = false;
+            }, 2000);
+          },
+          err => {
+            this.messageClass = "alert alert-danger";
+            this.message = err["error"]["message"];
+          }
+        );
+    }
   }
 }

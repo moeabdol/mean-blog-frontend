@@ -5,6 +5,10 @@
         {{ message }}
       </div>
 
+      <div [ngClass]="messageClass" *ngIf="message && processingDeletePost">
+        {{ message }}
+      </div>
+
       <h3>Blog Feed</h3>
       <hr/>
 
@@ -99,15 +103,19 @@
 
             <div class="btn-group blocks">
               <a [routerLink]="['/blog/edit', post._id]" *ngIf="post.createdBy === currentUserUsername">
-                <button type="button" name="button" class="btn btn-sm btn-info">
+                <button type="button" name="button" class="btn btn-sm btn-info"
+                  [disabled]="processingDeletePost">
                   Edit
                 </button>
               </a>
+
               <a (click)="deleteBlogPost(post._id)" *ngIf="post.createdBy === currentUserUsername">
-                <button type="button" name="button" class="btn btn-sm btn-danger">
+                <button [disabled]="processingDeletePost" type="button"
+                  name="button" class="btn btn-sm btn-danger">
                   Delete
                 </button>
               </a>
+
               <div class="dropdown">
                 <button type="button" name="button" *ngIf="post.createdBy !== currentUserUsername"
                   class="btn btn-sm btn-success" data-toggle="dropdown">

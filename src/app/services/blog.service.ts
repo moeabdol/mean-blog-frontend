@@ -40,4 +40,10 @@ export class BlogService {
     return this._http.put(`http://localhost:3000/api/blog/${id}`, blog,
       { headers });
   }
+
+  deleteBlogPost(id) {
+    const headers = this.createAuthHeaders();
+    return this._http.delete(`http://localhost:3000/api/blog/${id}`,
+      { headers });
+  }
 }
